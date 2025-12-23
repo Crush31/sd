@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Luxury Tree - Custom Edition</title>
-
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Ma+Shan+Zheng&display=swap');
 
@@ -22,8 +22,8 @@
             text-align: center;
             font-family: 'Cinzel', serif;
             font-weight: 800;
-            font-size: clamp(28px, 5vw, 60px);
-            letter-spacing: 0.1em;
+            font-size: clamp(28px, 5vw, 60px); /* 变小 */
+            letter-spacing: 0.1em; /* 变小 */
             text-transform: uppercase;
             pointer-events: none;
             z-index: 20;
@@ -34,7 +34,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-image: linear-gradient(180deg, #fffdf0 0%, #eacda3 30%, #d6ae7b 60%, #8b6c42 100%);
-            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6)); /* 变小 */
             
             animation: titleFadeIn 2s ease-out forwards 1s;
             transition: filter 1.5s ease, background-image 1.5s ease;
@@ -49,10 +49,9 @@
         .spinner { width: 30px; height: 30px; border: 2px solid rgba(212, 175, 55, 0.1); border-top: 2px solid #d4af37; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 顶部右侧功能按钮 - 向下移动 */
         #top-right-controls { 
             position: absolute; 
-            top: 250px; /* 向下移动 */
+            top: 350px; /* 向下移动 */
             right: 15px;
             z-index: 30; 
             display: flex; 
@@ -69,7 +68,7 @@
             border: 1px solid rgba(212, 175, 55, 0.4); 
             color: #d4af37; 
             width: 85px; 
-            padding: 8px 0; 
+            padding: 4px 0; 
             border-radius: 6px; 
             font-family: 'Cinzel', serif; 
             font-size: 12px; 
@@ -83,7 +82,7 @@
         .control-btn:active { transform: scale(0.95); }
         .control-btn.disabled { color: #666; border-color: #444; }
         
-        #file-input, #music-input { display: none; }
+        #file-input, #music-input, #import-input { display: none; }
 
         /* 模式控制按钮 - 移动到页面底部 */
         #mode-controls {
@@ -292,9 +291,8 @@
     <div id="canvas-container"></div>
 
     <div id="ui-layer">
-        <div id="main-title">Luxury Tree</div>
+        <div id="main-title"></div>
 
-        <!-- 功能按钮区域 - 位置向下移动 -->
         <div id="top-right-controls">
             <button id="btn-bg-music" class="control-btn">上传音乐</button>
             <button id="btn-add-photo" class="control-btn">上传照片</button>
@@ -970,6 +968,79 @@
             STATE.photos = [];
         }
 
+        function exportSceneData() {
+            const photos = particleSystem.filter(p => p.type === 'PHOTO').map(p => {
+                try {
+                    return p.mesh.children[1].material.map.image.src; 
+                } catch(e) { return null; }
+            }).filter(src => src !== null);
+
+            const exportData = {
+                music: STATE.musicData, 
+                letter: STATE.letterContent,
+                photos: photos,
+                theme: STATE.currentThemeIndex,
+                title: document.getElementById('main-title').innerText,
+                mode: STATE.currentMode
+            };
+
+            const blob = new Blob([JSON.stringify(exportData)], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "tree.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importSceneData(jsonData) {
+            try {
+                const data = JSON.parse(jsonData);
+                
+                if (data.title) {
+                    document.getElementById('main-title').innerText = data.title;
+                }
+
+                if (data.letter) STATE.letterContent = data.letter;
+
+                if (data.music) {
+                    STATE.musicData = data.music;
+                    const audioEl = document.getElementById('bg-music');
+                    audioEl.src = data.music;
+                    audioEl.currentTime = 0;
+                    audioEl.play().catch(console.warn);
+                }
+
+                clearPhotos();
+                if (data.photos && Array.isArray(data.photos)) {
+                    const loader = new THREE.TextureLoader();
+                    data.photos.forEach(src => {
+                        STATE.uploadedPhotoURLs.add(src);
+                        loader.load(src, t => { 
+                            t.colorSpace = THREE.SRGBColorSpace; 
+                            addPhotoToScene(t, src); 
+                        });
+                    });
+                }
+
+                if (data.theme !== undefined) {
+                    switchTheme(data.theme);
+                }
+                
+                if (data.mode) {
+                    switchMode(data.mode);
+                }
+                
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log("Auto fullscreen blocked by browser policy:", err);
+                });
+
+            } catch (e) {
+                console.error("Import failed:", e);
+                alert("文件格式错误，无法导入");
+            }
+        }
+
         function setupLetterSystem() {
             const modal = document.getElementById('letter-editor-modal'), txt = document.getElementById('letter-text-input');
             document.getElementById('btn-write-letter').onclick = (e) => { e.stopPropagation(); modal.style.display = 'flex'; txt.value = STATE.letterContent; };
@@ -1492,4 +1563,3 @@
     </script>
 </body>
 </html>
-
