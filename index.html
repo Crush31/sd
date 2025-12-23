@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Luxury Tree - Custom Edition</title>
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Ma+Shan+Zheng&display=swap');
 
@@ -22,8 +22,8 @@
             text-align: center;
             font-family: 'Cinzel', serif;
             font-weight: 800;
-            font-size: clamp(28px, 5vw, 60px); /* 变小 */
-            letter-spacing: 0.1em; /* 变小 */
+            font-size: clamp(28px, 5vw, 60px);
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             pointer-events: none;
             z-index: 20;
@@ -34,7 +34,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-image: linear-gradient(180deg, #fffdf0 0%, #eacda3 30%, #d6ae7b 60%, #8b6c42 100%);
-            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6)); /* 变小 */
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
             
             animation: titleFadeIn 2s ease-out forwards 1s;
             transition: filter 1.5s ease, background-image 1.5s ease;
@@ -49,6 +49,7 @@
         .spinner { width: 30px; height: 30px; border: 2px solid rgba(212, 175, 55, 0.1); border-top: 2px solid #d4af37; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
+        /* 顶部右侧功能按钮 - 向下移动 */
         #top-right-controls { 
             position: absolute; 
             top: 350px; /* 向下移动 */
@@ -68,7 +69,7 @@
             border: 1px solid rgba(212, 175, 55, 0.4); 
             color: #d4af37; 
             width: 85px; 
-            padding: 4px 0; 
+            padding: 8px 0; 
             border-radius: 6px; 
             font-family: 'Cinzel', serif; 
             font-size: 12px; 
@@ -82,7 +83,7 @@
         .control-btn:active { transform: scale(0.95); }
         .control-btn.disabled { color: #666; border-color: #444; }
         
-        #file-input, #music-input, #import-input { display: none; }
+        #file-input, #music-input { display: none; }
 
         /* 模式控制按钮 - 移动到页面底部 */
         #mode-controls {
@@ -291,8 +292,9 @@
     <div id="canvas-container"></div>
 
     <div id="ui-layer">
-        <div id="main-title"></div>
+        <div id="main-title">Luxury Tree</div>
 
+        <!-- 功能按钮区域 - 位置向下移动 -->
         <div id="top-right-controls">
             <button id="btn-bg-music" class="control-btn">上传音乐</button>
             <button id="btn-add-photo" class="control-btn">上传照片</button>
@@ -400,7 +402,11 @@
             // 控制面板隐藏状态
             controlsHidden: false,
             // 照片位置调整
-            photoFocusPosition: new THREE.Vector3(0, 0, 0)
+            photoFocusPosition: new THREE.Vector3(0, 0, 0),
+            // 触摸相关状态
+            lastTouchTime: 0,
+            touchStartX: 0,
+            touchStartY: 0
         };
 
         let scene, camera, renderer, composer, clock = new THREE.Clock();
@@ -968,79 +974,6 @@
             STATE.photos = [];
         }
 
-        function exportSceneData() {
-            const photos = particleSystem.filter(p => p.type === 'PHOTO').map(p => {
-                try {
-                    return p.mesh.children[1].material.map.image.src; 
-                } catch(e) { return null; }
-            }).filter(src => src !== null);
-
-            const exportData = {
-                music: STATE.musicData, 
-                letter: STATE.letterContent,
-                photos: photos,
-                theme: STATE.currentThemeIndex,
-                title: document.getElementById('main-title').innerText,
-                mode: STATE.currentMode
-            };
-
-            const blob = new Blob([JSON.stringify(exportData)], {type: "application/json"});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "tree.json";
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importSceneData(jsonData) {
-            try {
-                const data = JSON.parse(jsonData);
-                
-                if (data.title) {
-                    document.getElementById('main-title').innerText = data.title;
-                }
-
-                if (data.letter) STATE.letterContent = data.letter;
-
-                if (data.music) {
-                    STATE.musicData = data.music;
-                    const audioEl = document.getElementById('bg-music');
-                    audioEl.src = data.music;
-                    audioEl.currentTime = 0;
-                    audioEl.play().catch(console.warn);
-                }
-
-                clearPhotos();
-                if (data.photos && Array.isArray(data.photos)) {
-                    const loader = new THREE.TextureLoader();
-                    data.photos.forEach(src => {
-                        STATE.uploadedPhotoURLs.add(src);
-                        loader.load(src, t => { 
-                            t.colorSpace = THREE.SRGBColorSpace; 
-                            addPhotoToScene(t, src); 
-                        });
-                    });
-                }
-
-                if (data.theme !== undefined) {
-                    switchTheme(data.theme);
-                }
-                
-                if (data.mode) {
-                    switchMode(data.mode);
-                }
-                
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log("Auto fullscreen blocked by browser policy:", err);
-                });
-
-            } catch (e) {
-                console.error("Import failed:", e);
-                alert("文件格式错误，无法导入");
-            }
-        }
-
         function setupLetterSystem() {
             const modal = document.getElementById('letter-editor-modal'), txt = document.getElementById('letter-text-input');
             document.getElementById('btn-write-letter').onclick = (e) => { e.stopPropagation(); modal.style.display = 'flex'; txt.value = STATE.letterContent; };
@@ -1087,6 +1020,16 @@
         }
 
         function focusOnPhoto(photoMesh) {
+            if (STATE.mode === 'LETTER') {
+                // 如果在书信模式下，先退出书信模式
+                exitLetterMode();
+                // 延迟一下，让模式切换完成
+                setTimeout(() => {
+                    focusOnPhoto(photoMesh);
+                }, 500);
+                return;
+            }
+            
             if (STATE.mode === 'FOCUS_PHOTO' && STATE.focusedPhotoMesh === photoMesh) {
                 // 如果已经聚焦在这个照片上，则退出聚焦模式
                 exitPhotoFocus();
@@ -1221,10 +1164,81 @@
         function handleMouseUp(event) {
             STATE.isMouseDown = false;
             
-            // 检查是否点击了照片（在分散模式下）
-            if (STATE.mode === 'SCATTER' || STATE.mode === 'FOCUS_PHOTO') {
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            // 检查是否点击了照片
+            checkPhotoClick(event.clientX, event.clientY);
+        }
+
+        function handleTouchStart(event) {
+            if (event.touches.length === 1) {
+                const touch = event.touches[0];
+                STATE.isMouseDown = true;
+                STATE.lastMouseX = touch.clientX;
+                STATE.lastMouseY = touch.clientY;
+                STATE.touchStartX = touch.clientX;
+                STATE.touchStartY = touch.clientY;
+                STATE.lastTouchTime = Date.now();
+                
+                // 防止触摸滚动
+                event.preventDefault();
+            }
+        }
+
+        function handleTouchMove(event) {
+            if (STATE.isMouseDown && event.touches.length === 1 && STATE.mode !== 'LETTER') {
+                const touch = event.touches[0];
+                const deltaX = touch.clientX - STATE.lastMouseX;
+                const deltaY = touch.clientY - STATE.lastMouseY;
+                
+                STATE.rotation.y += deltaX * 0.01;
+                STATE.rotation.x += deltaY * 0.01;
+                
+                STATE.lastMouseX = touch.clientX;
+                STATE.lastMouseY = touch.clientY;
+                
+                // 防止触摸滚动
+                event.preventDefault();
+            }
+        }
+
+        function handleTouchEnd(event) {
+            STATE.isMouseDown = false;
+            
+            // 如果是轻触（点击）而不是拖动
+            if (event.changedTouches.length === 1 && Date.now() - STATE.lastTouchTime < 300) {
+                const touch = event.changedTouches[0];
+                const deltaX = Math.abs(touch.clientX - STATE.touchStartX);
+                const deltaY = Math.abs(touch.clientY - STATE.touchStartY);
+                
+                // 如果是轻触（移动距离小于10px）
+                if (deltaX < 10 && deltaY < 10) {
+                    checkPhotoClick(touch.clientX, touch.clientY);
+                }
+            }
+        }
+
+        function checkPhotoClick(clientX, clientY) {
+            // 在书信模式下，允许点击书信内容区域来退出
+            if (STATE.mode === 'LETTER') {
+                // 检查是否点击了关闭按钮
+                const overlay = document.getElementById('letter-overlay');
+                const paper = document.querySelector('.letter-paper');
+                const closeBtn = document.getElementById('btn-close-letter-mode');
+                
+                // 将点击位置转换为相对于窗口的坐标
+                const rect = paper.getBoundingClientRect();
+                
+                // 如果点击了关闭按钮或者书信区域外部，则退出书信模式
+                if (!isPointInRect(clientX, clientY, rect) || 
+                    isPointInElement(clientX, clientY, closeBtn)) {
+                    exitLetterMode();
+                }
+                return;
+            }
+            
+            // 检查是否点击了照片（在分散模式或聚焦模式下）
+            if (STATE.mode === 'SCATTER' || STATE.mode === 'FOCUS_PHOTO' || STATE.mode === 'GATHER') {
+                mouse.x = (clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(clientY / window.innerHeight) * 2 + 1;
                 
                 raycaster.setFromCamera(mouse, camera);
                 
@@ -1245,6 +1259,16 @@
                     exitPhotoFocus();
                 }
             }
+        }
+
+        function isPointInRect(x, y, rect) {
+            return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        }
+
+        function isPointInElement(x, y, element) {
+            if (!element) return false;
+            const rect = element.getBoundingClientRect();
+            return isPointInRect(x, y, rect);
         }
 
         function handleWheel(event) {
@@ -1488,6 +1512,11 @@
             renderer.domElement.addEventListener('mousedown', handleMouseDown);
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseup', handleMouseUp);
+            
+            // 触摸事件（移动端支持）
+            renderer.domElement.addEventListener('touchstart', handleTouchStart, { passive: false });
+            renderer.domElement.addEventListener('touchmove', handleTouchMove, { passive: false });
+            renderer.domElement.addEventListener('touchend', handleTouchEnd);
             
             // 滚轮事件
             renderer.domElement.addEventListener('wheel', handleWheel, { passive: false });
