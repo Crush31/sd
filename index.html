@@ -22,8 +22,8 @@
             text-align: center;
             font-family: 'Cinzel', serif;
             font-weight: 800;
-            font-size: clamp(36px, 7vw, 80px); 
-            letter-spacing: 0.15em;
+            font-size: clamp(28px, 5vw, 60px); /* 变小 */
+            letter-spacing: 0.1em; /* 变小 */
             text-transform: uppercase;
             pointer-events: none;
             z-index: 20;
@@ -34,7 +34,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-image: linear-gradient(180deg, #fffdf0 0%, #eacda3 30%, #d6ae7b 60%, #8b6c42 100%);
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6)); /* 变小 */
             
             animation: titleFadeIn 2s ease-out forwards 1s;
             transition: filter 1.5s ease, background-image 1.5s ease;
@@ -46,13 +46,38 @@
         }
 
         #loader { position: absolute; width: 100%; height: 100%; background: #000; z-index: 100; display: flex; align-items: center; justify-content: center; transition: opacity 1.2s; pointer-events: none; }
-        .spinner { width: 40px; height: 40px; border: 2px solid rgba(212, 175, 55, 0.1); border-top: 2px solid #d4af37; border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 30px; height: 30px; border: 2px solid rgba(212, 175, 55, 0.1); border-top: 2px solid #d4af37; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        #top-right-controls { position: absolute; top: 20px; right: 20px; z-index: 30; display: flex; flex-direction: row; gap: 15px; pointer-events: auto; }
-        .control-col { display: flex; flex-direction: column; gap: 15px; }
+        #top-right-controls { 
+            position: absolute; 
+            top: 15px; /* 调整位置 */
+            right: 15px; /* 调整位置 */
+            z-index: 30; 
+            display: flex; 
+            flex-direction: row; 
+            gap: 10px; /* 变小 */
+            pointer-events: auto; 
+            transition: opacity 0.3s ease;
+        }
         
-        .control-btn { background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(212, 175, 55, 0.4); color: #d4af37; width: 100px; padding: 5px 0; border-radius: 7px; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: all 0.3s ease; }
+        .control-col { display: flex; flex-direction: column; gap: 10px; /* 变小 */ }
+        
+        .control-btn { 
+            background: rgba(10, 10, 10, 0.6); 
+            border: 1px solid rgba(212, 175, 55, 0.4); 
+            color: #d4af37; 
+            width: 85px; /* 变小 */
+            padding: 4px 0; /* 变小 */
+            border-radius: 6px; /* 变小 */
+            font-family: 'Cinzel', serif; 
+            font-size: 12px; /* 变小 */
+            font-weight: 600; 
+            cursor: pointer; 
+            backdrop-filter: blur(5px); 
+            transition: all 0.3s ease; 
+        }
+        
         .control-btn:hover { background: rgba(212, 175, 55, 0.2); border-color: rgba(212, 175, 55, 0.8); color: #fff; transform: scale(1.05); }
         .control-btn:active { transform: scale(0.95); }
         .control-btn.disabled { color: #666; border-color: #444; }
@@ -62,12 +87,12 @@
         #mode-controls {
             position: absolute;
             top: 50%;
-            right: 20px;
+            right: 15px; /* 调整位置 */
             transform: translateY(-50%);
             z-index: 30;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px; /* 变小 */
             pointer-events: auto;
         }
 
@@ -75,11 +100,11 @@
             background: rgba(10, 10, 10, 0.6);
             border: 1px solid rgba(212, 175, 55, 0.4);
             color: #d4af37;
-            width: 100px;
-            padding: 10px 0;
-            border-radius: 7px;
+            width: 85px; /* 变小 */
+            padding: 8px 0; /* 变小 */
+            border-radius: 6px; /* 变小 */
             font-family: 'Cinzel', serif;
-            font-size: 14px;
+            font-size: 12px; /* 变小 */
             font-weight: 600;
             cursor: pointer;
             backdrop-filter: blur(5px);
@@ -90,7 +115,7 @@
             background: rgba(212, 175, 55, 0.3);
             border-color: #d4af37;
             color: #fff;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.5); /* 变小 */
         }
 
         .mode-btn:hover {
@@ -100,10 +125,44 @@
             transform: scale(1.05);
         }
 
-        #letter-editor-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; background: rgba(10, 10, 10, 0.95); border: 1px solid #d4af37; border-radius: 10px; padding: 20px; z-index: 200; display: none; flex-direction: column; gap: 15px; pointer-events: auto; }
-        #letter-editor-modal h3 { color: #d4af37; margin: 0; text-align: center; }
-        #letter-text-input { width: 100%; height: 150px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #fff; padding: 10px; resize: none; outline: none; }
-        .modal-btn-group { display: flex; justify-content: flex-end; gap: 10px; }
+        #letter-editor-modal { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 80%; 
+            max-width: 450px; /* 变小 */
+            background: rgba(10, 10, 10, 0.95); 
+            border: 1px solid #d4af37; 
+            border-radius: 8px; /* 变小 */
+            padding: 15px; /* 变小 */
+            z-index: 200; 
+            display: none; 
+            flex-direction: column; 
+            gap: 12px; /* 变小 */
+            pointer-events: auto; 
+        }
+        
+        #letter-editor-modal h3 { 
+            color: #d4af37; 
+            margin: 0; 
+            text-align: center; 
+            font-size: 16px; /* 变小 */
+        }
+        
+        #letter-text-input { 
+            width: 100%; 
+            height: 120px; /* 变小 */
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid #444; 
+            color: #fff; 
+            padding: 8px; /* 变小 */
+            resize: none; 
+            outline: none; 
+            font-size: 14px; /* 变小 */
+        }
+        
+        .modal-btn-group { display: flex; justify-content: flex-end; gap: 8px; /* 变小 */ }
 
         #letter-overlay { 
             position: absolute; 
@@ -120,45 +179,47 @@
             opacity: 0; 
             transition: opacity 1.5s ease; 
         }
+        
         .letter-paper { 
-            height: 80%; 
+            height: 75%; /* 调整大小 */
             aspect-ratio: 3/4; 
             background: rgba(255, 252, 240, 0.15); 
             backdrop-filter: blur(10px); 
             border: 1px solid rgba(255, 255, 255, 0.3); 
-            padding: 6vh; 
+            padding: 5vh; /* 调整 */
             box-sizing: border-box; 
             position: relative; 
             display: flex; 
             flex-direction: column; 
             transform: translateY(20px); 
             transition: transform 1.5s ease-out; 
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+            border-radius: 12px; /* 调整 */
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); /* 调整 */
         }
+        
         .letter-content { 
             font-family: 'Ma Shan Zheng', cursive; 
-            font-size: clamp(16px, 2.5vh, 24px); 
-            line-height: 1.8; 
+            font-size: clamp(14px, 2vh, 20px); /* 变小 */
+            line-height: 1.6; /* 调整 */
             color: rgba(255, 255, 255, 0.9); 
-            text-shadow: 0 0 5px rgba(255,215,0, 0.3); 
+            text-shadow: 0 0 4px rgba(255,215,0, 0.3); /* 变小 */
             white-space: pre-wrap; 
             overflow-y: auto; 
             flex: 1; 
             scroll-behavior: smooth; 
         }
         
-        .letter-content::-webkit-scrollbar { width: 6px; }
-        .letter-content::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 3px; }
+        .letter-content::-webkit-scrollbar { width: 5px; /* 变小 */ }
+        .letter-content::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 2.5px; /* 变小 */ }
         .cursor::after { content: '|'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
         .letter-close-btn { 
             position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            width: 30px; 
-            height: 30px; 
+            top: 12px; /* 调整 */
+            right: 12px; /* 调整 */
+            width: 25px; /* 变小 */
+            height: 25px; /* 变小 */
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(212, 175, 55, 0.6); 
             border-radius: 50%; 
@@ -168,26 +229,88 @@
             justify-content: center; 
             cursor: pointer; 
             transition: all 0.3s; 
-            font-size: 18px;
+            font-size: 16px; /* 变小 */
         }
+        
         .letter-close-btn:hover { background: #d4af37; color: #000; border-color: #fff; }
 
-        #help-overlay {
+        /* 隐藏控制按钮 */
+        #hide-controls-btn {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            bottom: 15px;
+            right: 15px;
+            z-index: 30;
+            width: 40px;
+            height: 40px;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 50%;
             color: #d4af37;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            line-height: 1.5;
-            z-index: 40;
-            pointer-events: none;
-            opacity: 0.8;
-            max-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            font-size: 18px;
+        }
+
+        #hide-controls-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        #hide-controls-btn.hidden {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            color: #fff;
+        }
+
+        /* 照片中心指示器 */
+        .photo-center-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .photo-center-indicator::before,
+        .photo-center-indicator::after {
+            content: '';
+            position: absolute;
+            background: rgba(212, 175, 55, 0.6);
+        }
+
+        .photo-center-indicator::before {
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            transform: translateY(-50%);
+        }
+
+        .photo-center-indicator::after {
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            transform: translateX(-50%);
+        }
+
+        .photo-center-indicator.visible {
+            opacity: 0.5;
         }
     </style>
 
@@ -204,6 +327,9 @@
 <body>
     <div id="loader"><div class="spinner"></div></div>
     <div id="canvas-container"></div>
+
+    <!-- 照片中心指示器 -->
+    <div class="photo-center-indicator" id="photo-center-indicator"></div>
 
     <div id="ui-layer">
         <div id="main-title"></div>
@@ -229,6 +355,9 @@
             <button id="btn-mode-letter" class="mode-btn">书信模式</button>
         </div>
 
+        <!-- 隐藏控制按钮 -->
+        <div id="hide-controls-btn" title="隐藏/显示控制">⚙️</div>
+
         <input type="file" id="file-input" multiple accept="image/*">
         <input type="file" id="music-input" accept="audio/mp3,audio/*">
         <input type="file" id="import-input" accept=".json">
@@ -238,8 +367,8 @@
         <h3>撰写你的心意</h3>
         <textarea id="letter-text-input" placeholder="在这里写下你想说的话..."></textarea>
         <div class="modal-btn-group">
-            <button id="btn-cancel-letter" class="control-btn" style="width: 80px;">取消</button>
-            <button id="btn-save-letter" class="control-btn" style="width: 80px;">保存</button>
+            <button id="btn-cancel-letter" class="control-btn" style="width: 70px;">取消</button>
+            <button id="btn-save-letter" class="control-btn" style="width: 70px;">保存</button>
         </div>
     </div>
 
@@ -248,18 +377,6 @@
             <div class="letter-close-btn" id="btn-close-letter-mode">×</div>
             <div class="letter-content" id="letter-content-display"></div>
         </div>
-    </div>
-
-    <div id="help-overlay">
-        <strong>控制说明：</strong><br>
-        • 鼠标拖拽：旋转场景<br>
-        • 鼠标滚轮：缩放视图<br>
-        • 空格键：切换颜色主题<br>
-        • F 键：全屏切换<br>
-        • 方向键：控制场景旋转<br>
-        • R 键：重置视图<br>
-        • H 键：显示/隐藏帮助<br>
-        • 点击照片：动态放大查看
     </div>
     
     <audio id="bg-music" loop crossorigin="anonymous"></audio>
@@ -319,8 +436,6 @@
             lastMouseY: 0,
             // 键盘控制状态
             keys: {},
-            // 帮助显示状态
-            helpVisible: true,
             // 存储已上传照片的URL，防止重复上传
             uploadedPhotoURLs: new Set(),
             // 存储照片数据
@@ -328,7 +443,11 @@
             // 动画状态
             isAnimating: false,
             animationProgress: 0,
-            animationDuration: 1.5
+            animationDuration: 1.5,
+            // 控制面板隐藏状态
+            controlsHidden: false,
+            // 照片位置调整
+            photoFocusPosition: new THREE.Vector3(0, 0, 0)
         };
 
         let scene, camera, renderer, composer, clock = new THREE.Clock();
@@ -361,6 +480,7 @@
             setupEvents();          
             setupLetterSystem(); 
             setupModeControls();
+            setupHideControls();
             
             switchTheme(0);
 
@@ -570,12 +690,24 @@
                 }
                 else if (mode === 'FOCUS_PHOTO') {
                     if (this.mesh === focusTargetMesh) {
-                        // 照片聚焦：飞到相机前方
-                        _targetVec.set(0, 0, CONFIG.camera.z - 8);
+                        // 照片聚焦：飞到屏幕正中心位置
+                        // 计算相对于相机的屏幕中心位置
+                        _targetVec.copy(STATE.photoFocusPosition);
                         target = _targetVec;
                         lerpSpeed = 5.0;
+                        
+                        // 让照片始终面向相机
                         this.mesh.lookAt(camera.position);
-                        s = this.baseScale * 8.0; // 放大照片
+                        
+                        // 根据照片宽高比调整缩放
+                        const aspect = this.mesh.userData?.aspect || 1;
+                        let scaleFactor = 6.0;
+                        if (aspect > 1.5) { // 横向照片
+                            scaleFactor = 8.0;
+                        } else if (aspect < 0.7) { // 纵向照片
+                            scaleFactor = 4.0;
+                        }
+                        s = this.baseScale * scaleFactor;
                     } else {
                         // 其他粒子远离
                         target = this.posScatter;
@@ -728,13 +860,13 @@
             if (titleEl) {
                 if (themeIndex === 0) { 
                     titleEl.style.color = '#d4af37';
-                    titleEl.style.textShadow = '0 0 15px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2)';
+                    titleEl.style.textShadow = '0 0 12px rgba(212, 175, 55, 0.4), 0 0 25px rgba(212, 175, 55, 0.2)';
                 } else if (themeIndex === 1) { 
                     titleEl.style.color = '#e0ffff';
-                    titleEl.style.textShadow = '0 0 15px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.4), 0 0 45px rgba(170, 221, 255, 0.3)';
+                    titleEl.style.textShadow = '0 0 12px rgba(0, 255, 255, 0.6), 0 0 25px rgba(0, 255, 255, 0.4), 0 0 35px rgba(170, 221, 255, 0.3)';
                 } else if (themeIndex === 2) { 
                     titleEl.style.color = '#ff69b4';
-                    titleEl.style.textShadow = '0 0 15px rgba(255, 22, 148, 0.6), 0 0 30px rgba(255, 183, 197, 0.4)';
+                    titleEl.style.textShadow = '0 0 12px rgba(255, 22, 148, 0.6), 0 0 25px rgba(255, 183, 197, 0.4)';
                 }
             }
             
@@ -815,12 +947,12 @@
             STATE.uploadedPhotoURLs.add(photoURL);
             
             const aspect = texture.image.width / texture.image.height;
-            let photoW = (aspect >= 1) ? 1.2 : 1.2 * aspect, photoH = (aspect >= 1) ? 1.2 / aspect : 1.2;
+            let photoW = (aspect >= 1) ? 1.0 : 1.0 * aspect, photoH = (aspect >= 1) ? 1.0 / aspect : 1.0;
             
             const group = new THREE.Group();
             group.userData = { type: 'PHOTO', photoURL: photoURL, aspect: aspect };
             
-            const frameGeo = new THREE.BoxGeometry(photoW + 0.15, photoH + 0.15, 0.1);
+            const frameGeo = new THREE.BoxGeometry(photoW + 0.12, photoH + 0.12, 0.08);
             
             let currentFrameMat;
             if (STATE.currentThemeIndex === 0) currentFrameMat = matLib.frameGold;
@@ -831,9 +963,9 @@
             group.add(frame);
             
             const photo = new THREE.Mesh(new THREE.PlaneGeometry(photoW, photoH), new THREE.MeshBasicMaterial({ map: texture }));
-            photo.position.z = 0.06; group.add(photo);
+            photo.position.z = 0.05; group.add(photo);
 
-            const borderGeo = new THREE.BoxGeometry(photoW + 0.25, photoH + 0.25, 0.08);
+            const borderGeo = new THREE.BoxGeometry(photoW + 0.20, photoH + 0.20, 0.06);
             const border = new THREE.Mesh(borderGeo, matLib.snowBorder);
             border.position.z = -0.02; border.visible = (STATE.currentThemeIndex !== 0);
             group.add(border);
@@ -972,6 +1104,31 @@
             };
         }
 
+        function setupHideControls() {
+            const hideBtn = document.getElementById('hide-controls-btn');
+            hideBtn.onclick = (e) => {
+                e.stopPropagation();
+                STATE.controlsHidden = !STATE.controlsHidden;
+                
+                // 切换按钮状态
+                hideBtn.classList.toggle('hidden', STATE.controlsHidden);
+                
+                // 隐藏/显示控制面板
+                const topControls = document.getElementById('top-right-controls');
+                const title = document.getElementById('main-title');
+                
+                if (STATE.controlsHidden) {
+                    topControls.style.opacity = '0';
+                    topControls.style.pointerEvents = 'none';
+                    if (title) title.style.opacity = '0';
+                } else {
+                    topControls.style.opacity = '1';
+                    topControls.style.pointerEvents = 'auto';
+                    if (title) title.style.opacity = '1';
+                }
+            };
+        }
+
         function focusOnPhoto(photoMesh) {
             if (STATE.mode === 'FOCUS_PHOTO' && STATE.focusedPhotoMesh === photoMesh) {
                 // 如果已经聚焦在这个照片上，则退出聚焦模式
@@ -983,22 +1140,19 @@
                 STATE.currentMode = 'FOCUS_PHOTO';
                 updateModeButtons();
                 
-                // 设置目标旋转，使相机正对照片
-                const photoPos = photoMesh.position.clone();
-                photoPos.applyMatrix4(mainGroup.matrixWorld);
-                const lookAtVec = new THREE.Vector3(0, 0, 1);
-                lookAtVec.applyQuaternion(camera.quaternion);
+                // 计算屏幕中心位置（相机前方固定距离）
+                // 将照片移动到相机前方合适距离，正好在屏幕中心
+                STATE.photoFocusPosition.set(0, 0, CONFIG.camera.z - 12);
                 
-                // 计算目标旋转
-                const targetY = Math.atan2(photoPos.x, photoPos.z);
-                const targetX = Math.atan2(photoPos.y, Math.sqrt(photoPos.x * photoPos.x + photoPos.z * photoPos.z));
-                
-                STATE.targetRotation.x = targetX;
-                STATE.targetRotation.y = targetY;
+                // 显示中心指示器
+                const indicator = document.getElementById('photo-center-indicator');
+                indicator.classList.add('visible');
                 
                 // 自动旋转到照片
                 STATE.isAnimating = true;
                 STATE.animationProgress = 0;
+                STATE.targetRotation.x = 0;
+                STATE.targetRotation.y = 0;
             }
         }
 
@@ -1012,6 +1166,10 @@
                 STATE.targetRotation.x = 0.1;
                 STATE.targetRotation.y = STATE.rotation.y;
                 updateModeButtons();
+                
+                // 隐藏中心指示器
+                const indicator = document.getElementById('photo-center-indicator');
+                indicator.classList.remove('visible');
             }
         }
 
@@ -1193,11 +1351,11 @@
                 updateModeButtons();
             }
             
-            // H键显示/隐藏帮助
+            // H键切换隐藏控制
             if (event.key.toLowerCase() === 'h') {
                 event.preventDefault();
-                STATE.helpVisible = !STATE.helpVisible;
-                document.getElementById('help-overlay').style.opacity = STATE.helpVisible ? 0.8 : 0;
+                const hideBtn = document.getElementById('hide-controls-btn');
+                hideBtn.click();
             }
         }
 
@@ -1434,6 +1592,7 @@
                 const btnExport = document.getElementById('btn-export');
                 const btnSwitch = document.getElementById('btn-switch-theme');
                 const modeControls = document.getElementById('mode-controls');
+                const hideBtn = document.getElementById('hide-controls-btn');
 
                 if (isFs) {
                     colMedia.style.display = 'none'; 
@@ -1441,12 +1600,14 @@
                     btnExport.style.display = 'none'; 
                     btnSwitch.style.display = 'none';
                     modeControls.style.display = 'none';
+                    hideBtn.style.display = 'none';
                 } else {
                     colMedia.style.display = 'flex';
                     btnImport.style.display = 'block';
                     btnExport.style.display = 'block';
                     btnSwitch.style.display = 'block';
                     modeControls.style.display = 'flex';
+                    hideBtn.style.display = 'flex';
                 }
             });
 
