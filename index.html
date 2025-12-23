@@ -59,22 +59,118 @@
         
         #file-input, #music-input, #import-input { display: none; }
 
+        #mode-controls {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: auto;
+        }
+
+        .mode-btn {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #d4af37;
+            width: 100px;
+            padding: 10px 0;
+            border-radius: 7px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .mode-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.8);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
         #letter-editor-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; background: rgba(10, 10, 10, 0.95); border: 1px solid #d4af37; border-radius: 10px; padding: 20px; z-index: 200; display: none; flex-direction: column; gap: 15px; pointer-events: auto; }
         #letter-editor-modal h3 { color: #d4af37; margin: 0; text-align: center; }
         #letter-text-input { width: 100%; height: 150px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #fff; padding: 10px; resize: none; outline: none; }
         .modal-btn-group { display: flex; justify-content: flex-end; gap: 10px; }
 
-        #letter-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 150; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; pointer-events: auto; opacity: 0; transition: opacity 1.5s ease; }
-        .letter-paper { height: 80%; aspect-ratio: 3/4; background: rgba(255, 252, 240, 0.15); backdrop-filter: blur(3px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 6vh; box-sizing: border-box; position: relative; display: flex; flex-direction: column; transform: translateY(20px); transition: transform 1.5s ease-out; }
-        .letter-content { font-family: 'Ma Shan Zheng', cursive; font-size: clamp(16px, 2.5vh, 24px); line-height: 1.8; color: rgba(255, 255, 255, 0.9); text-shadow: 0 0 5px rgba(255,215,0, 0.3); white-space: pre-wrap; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
+        #letter-overlay { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 150; 
+            background: rgba(0,0,0,0.6); 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            pointer-events: auto; 
+            opacity: 0; 
+            transition: opacity 1.5s ease; 
+        }
+        .letter-paper { 
+            height: 80%; 
+            aspect-ratio: 3/4; 
+            background: rgba(255, 252, 240, 0.15); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            padding: 6vh; 
+            box-sizing: border-box; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            transform: translateY(20px); 
+            transition: transform 1.5s ease-out; 
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+        }
+        .letter-content { 
+            font-family: 'Ma Shan Zheng', cursive; 
+            font-size: clamp(16px, 2.5vh, 24px); 
+            line-height: 1.8; 
+            color: rgba(255, 255, 255, 0.9); 
+            text-shadow: 0 0 5px rgba(255,215,0, 0.3); 
+            white-space: pre-wrap; 
+            overflow-y: auto; 
+            flex: 1; 
+            scroll-behavior: smooth; 
+        }
         
         .letter-content::-webkit-scrollbar { width: 6px; }
         .letter-content::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 3px; }
         .cursor::after { content: '|'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        .letter-close-btn { position: absolute; top: 15px; right: 15px; width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
-        .letter-close-btn:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: #fff; }
+        .letter-close-btn { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            width: 30px; 
+            height: 30px; 
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.6); 
+            border-radius: 50%; 
+            color: #d4af37; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            font-size: 18px;
+        }
+        .letter-close-btn:hover { background: #d4af37; color: #000; border-color: #fff; }
 
         #help-overlay {
             position: absolute;
@@ -126,6 +222,13 @@
                 <button id="btn-switch-theme" class="control-btn">颜色切换</button>
             </div>
         </div>
+
+        <div id="mode-controls">
+            <button id="btn-mode-gather" class="mode-btn active">聚拢模式</button>
+            <button id="btn-mode-scatter" class="mode-btn">分散模式</button>
+            <button id="btn-mode-letter" class="mode-btn">书信模式</button>
+        </div>
+
         <input type="file" id="file-input" multiple accept="image/*">
         <input type="file" id="music-input" accept="audio/mp3,audio/*">
         <input type="file" id="import-input" accept=".json">
@@ -152,12 +255,11 @@
         • 鼠标拖拽：旋转场景<br>
         • 鼠标滚轮：缩放视图<br>
         • 空格键：切换颜色主题<br>
-        • L 键：进入/退出书信模式<br>
         • F 键：全屏切换<br>
         • 方向键：控制场景旋转<br>
-        • P 键：随机聚焦照片<br>
         • R 键：重置视图<br>
-        • H 键：显示/隐藏帮助
+        • H 键：显示/隐藏帮助<br>
+        • 点击照片：动态放大查看
     </div>
     
     <audio id="bg-music" loop crossorigin="anonymous"></audio>
@@ -195,13 +297,21 @@
         };
 
         const STATE = {
-            mode: 'TREE', focusTarget: null, currentPhotoIndex: -1,
+            mode: 'GATHER', // GATHER, SCATTER, LETTER, FOCUS_PHOTO
+            currentMode: 'GATHER',
+            focusTarget: null,
+            focusedPhotoMesh: null,
+            currentPhotoIndex: -1,
             currentThemeIndex: 0, 
             scatterScale: 1.0,
-            rotation: { x: 0, y: 0 }, spinVel: { x: 0, y: 0 }, time: 0,
-            starMesh: null, starHaloMesh: null,
+            rotation: { x: 0, y: 0 },
+            targetRotation: { x: 0.1, y: 0 },
+            time: 0,
+            starMesh: null,
+            starHaloMesh: null,
             letterContent: "", 
-            letterTyper: null, letterStartTimer: null,
+            letterTyper: null,
+            letterStartTimer: null,
             musicData: null,
             // 鼠标控制状态
             isMouseDown: false,
@@ -210,7 +320,15 @@
             // 键盘控制状态
             keys: {},
             // 帮助显示状态
-            helpVisible: true
+            helpVisible: true,
+            // 存储已上传照片的URL，防止重复上传
+            uploadedPhotoURLs: new Set(),
+            // 存储照片数据
+            photos: [],
+            // 动画状态
+            isAnimating: false,
+            animationProgress: 0,
+            animationDuration: 1.5
         };
 
         let scene, camera, renderer, composer, clock = new THREE.Clock();
@@ -218,6 +336,8 @@
         let galaxySystem = null; 
         let snowSystem = null;
         let heartSystem = null;
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
 
         let caneTexture, snowTexture, heartTexture, matLib = {};
         
@@ -240,6 +360,7 @@
             setupPostProcessing();
             setupEvents();          
             setupLetterSystem(); 
+            setupModeControls();
             
             switchTheme(0);
 
@@ -410,6 +531,7 @@
 
             calculatePositions() {
                 const h = CONFIG.particles.treeHeight; let t = Math.random();
+                
                 if (Math.random() > 0.7 && !this.isDust && this.type !== 'PHOTO') {
                     const y = (t * h) - h/2, angle = t * Math.PI * 12, rBase = CONFIG.particles.treeRadius * (1.0 - t);
                     this.posTree.set(Math.cos(angle) * rBase, y, Math.sin(angle) * rBase);
@@ -417,49 +539,78 @@
                     t = Math.pow(t, 0.8); const y = (t * h) - h/2, angle = Math.random() * Math.PI * 2, r = Math.max(0.5, CONFIG.particles.treeRadius * (1.0 - t)) * Math.sqrt(Math.random());
                     this.posTree.set(Math.cos(angle) * r, y, Math.sin(angle) * r);
                 }
-                const rScatter = this.isDust ? (15 + Math.random()*25) : (10 + Math.random()*15);
-                const theta = Math.random() * Math.PI * 2, phi = Math.acos(2 * Math.random() - 1);
-                this.posScatter.set(rScatter * Math.sin(phi) * Math.cos(theta), rScatter * Math.sin(phi) * Math.sin(theta), rScatter * Math.cos(phi));
+                
+                // 对于照片，分散时放在更显眼的位置
+                if (this.type === 'PHOTO') {
+                    const rScatter = 8 + Math.random() * 5; // 照片在更近的距离
+                    const theta = Math.random() * Math.PI * 2, phi = Math.acos(2 * Math.random() - 1) * 0.5 + Math.PI * 0.25; // 照片在视野中心区域
+                    this.posScatter.set(
+                        rScatter * Math.sin(phi) * Math.cos(theta),
+                        rScatter * Math.sin(phi) * Math.sin(theta),
+                        rScatter * Math.cos(phi)
+                    );
+                } else {
+                    // 普通粒子分散到更远的地方
+                    const rScatter = this.isDust ? (15 + Math.random()*25) : (10 + Math.random()*15);
+                    const theta = Math.random() * Math.PI * 2, phi = Math.acos(2 * Math.random() - 1);
+                    this.posScatter.set(
+                        rScatter * Math.sin(phi) * Math.cos(theta),
+                        rScatter * Math.sin(phi) * Math.sin(theta),
+                        rScatter * Math.cos(phi)
+                    );
+                }
             }
 
             update(dt, time, mode, focusTargetMesh, invMatrix) {
                 let target, s = this.baseScale, lerpSpeed = 3.0;
                 
-                if (mode === 'SCATTER') {
-                    _targetVec.copy(this.posScatter).multiplyScalar(STATE.scatterScale);
+                if (mode === 'SCATTER' || mode === 'LETTER') {
+                    _targetVec.copy(this.posScatter).multiplyScalar(1.0);
                     target = _targetVec;
                 }
-                else if (mode === 'LETTER') target = this.posScatter;
-                else if (mode === 'FOCUS') {
-                    if (this.mesh === focusTargetMesh && invMatrix) {
-                        _targetVec.set(0, 0, CONFIG.camera.z - 15).applyMatrix4(invMatrix);
+                else if (mode === 'FOCUS_PHOTO') {
+                    if (this.mesh === focusTargetMesh) {
+                        // 照片聚焦：飞到相机前方
+                        _targetVec.set(0, 0, CONFIG.camera.z - 8);
                         target = _targetVec;
-                        lerpSpeed = 6.0; this.mesh.lookAt(camera.position); s = this.baseScale * 5.0;
-                    } else { target = this.posScatter; s = 0.01; }
+                        lerpSpeed = 5.0;
+                        this.mesh.lookAt(camera.position);
+                        s = this.baseScale * 8.0; // 放大照片
+                    } else {
+                        // 其他粒子远离
+                        target = this.posScatter;
+                        s = 0.01;
+                        lerpSpeed = 6.0;
+                    }
                 } else {
+                    // GATHER 模式
                     target = this.posTree;
                 }
 
                 _tempVec.copy(target);
-                if(mode === 'TREE') { 
+                if(mode === 'GATHER') { 
                     const floatScale = (STATE.currentThemeIndex === 1) ? 0.3 : 0.15;
                     _tempVec.y += Math.sin(time * this.speed + this.offset) * floatScale; 
                     _tempVec.x += Math.cos(time * 0.5 * this.speed + this.offset) * 0.1; 
                 }
+                
                 this.mesh.position.lerp(_tempVec, lerpSpeed * dt);
 
-                if (this.hasEmissive && mode === 'TREE' && !this.isDust) {
+                if (this.hasEmissive && mode === 'GATHER' && !this.isDust) {
                     const blink = Math.sin(time * 2 + this.offset);
                     const maxEmit = (STATE.currentThemeIndex === 1) ? 3.0 : 2.5;
                     this.mesh.material.emissiveIntensity = blink > 0.5 ? (1.0 + (blink - 0.5) * maxEmit) : 0.4;
                 }
 
-                if (mode !== 'FOCUS') {
-                    if (this.isDust) s = this.baseScale * (0.5 + 0.5 * Math.sin(time * 3 + this.offset));
-                    else if ((mode === 'SCATTER' || mode === 'LETTER') && this.type === 'PHOTO') s = this.baseScale * 2.5;
+                if (mode !== 'FOCUS_PHOTO') {
+                    if (this.isDust) {
+                        s = this.baseScale * (0.5 + 0.5 * Math.sin(time * 3 + this.offset));
+                    } else if ((mode === 'SCATTER' || mode === 'LETTER') && this.type === 'PHOTO') {
+                        s = this.baseScale * 2.5; // 照片在分散模式下稍微大一些
+                    }
                     
-                    if (STATE.currentThemeIndex === 1 && mode === 'TREE' && !this.isDust && this.type !== 'PHOTO') {
-                            s *= (1.0 + 0.2 * Math.sin(time * 3 + this.offset));
+                    if (STATE.currentThemeIndex === 1 && mode === 'GATHER' && !this.isDust && this.type !== 'PHOTO') {
+                        s *= (1.0 + 0.2 * Math.sin(time * 3 + this.offset));
                     }
                 }
                 this.mesh.scale.lerp(_tempVec.set(s,s,s), 5*dt);
@@ -652,12 +803,23 @@
             }
         }
 
-        function addPhotoToScene(texture) {
+        function addPhotoToScene(texture, photoURL) {
             if (!texture.image) return;
+            
+            // 检查是否已上传相同的照片
+            if (STATE.uploadedPhotoURLs.has(photoURL)) {
+                alert('这张照片已经上传过了！');
+                return;
+            }
+            
+            STATE.uploadedPhotoURLs.add(photoURL);
+            
             const aspect = texture.image.width / texture.image.height;
             let photoW = (aspect >= 1) ? 1.2 : 1.2 * aspect, photoH = (aspect >= 1) ? 1.2 / aspect : 1.2;
             
             const group = new THREE.Group();
+            group.userData = { type: 'PHOTO', photoURL: photoURL, aspect: aspect };
+            
             const frameGeo = new THREE.BoxGeometry(photoW + 0.15, photoH + 0.15, 0.1);
             
             let currentFrameMat;
@@ -676,14 +838,29 @@
             border.position.z = -0.02; border.visible = (STATE.currentThemeIndex !== 0);
             group.add(border);
 
-            photoMeshGroup.add(group); particleSystem.push(new Particle(group, 'PHOTO', false));
+            photoMeshGroup.add(group);
+            particleSystem.push(new Particle(group, 'PHOTO', false));
+            
+            // 存储照片数据
+            STATE.photos.push({
+                mesh: group,
+                photoURL: photoURL,
+                texture: texture,
+                aspect: aspect
+            });
         }
 
         function handleImageUpload(e) {
             if(!e.target.files.length) return;
             Array.from(e.target.files).forEach(f => {
                 const reader = new FileReader();
-                reader.onload = (ev) => new THREE.TextureLoader().load(ev.target.result, t => { t.colorSpace = THREE.SRGBColorSpace; addPhotoToScene(t); });
+                reader.onload = (ev) => {
+                    const photoURL = ev.target.result;
+                    new THREE.TextureLoader().load(photoURL, t => { 
+                        t.colorSpace = THREE.SRGBColorSpace; 
+                        addPhotoToScene(t, photoURL); 
+                    });
+                };
                 reader.readAsDataURL(f);
             });
         }
@@ -703,6 +880,8 @@
                 });
             });
             particleSystem = particleSystem.filter(p => p.type !== 'PHOTO');
+            STATE.uploadedPhotoURLs.clear();
+            STATE.photos = [];
         }
 
         function exportSceneData() {
@@ -717,7 +896,8 @@
                 letter: STATE.letterContent,
                 photos: photos,
                 theme: STATE.currentThemeIndex,
-                title: document.getElementById('main-title').innerText
+                title: document.getElementById('main-title').innerText,
+                mode: STATE.currentMode
             };
 
             const blob = new Blob([JSON.stringify(exportData)], {type: "application/json"});
@@ -751,15 +931,20 @@
                 if (data.photos && Array.isArray(data.photos)) {
                     const loader = new THREE.TextureLoader();
                     data.photos.forEach(src => {
+                        STATE.uploadedPhotoURLs.add(src);
                         loader.load(src, t => { 
                             t.colorSpace = THREE.SRGBColorSpace; 
-                            addPhotoToScene(t); 
+                            addPhotoToScene(t, src); 
                         });
                     });
                 }
 
                 if (data.theme !== undefined) {
                     switchTheme(data.theme);
+                }
+                
+                if (data.mode) {
+                    switchMode(data.mode);
                 }
                 
                 document.documentElement.requestFullscreen().catch(err => {
@@ -781,31 +966,130 @@
                 STATE.letterContent = txt.value.trim(); 
                 modal.style.display = 'none'; 
             };
-            document.getElementById('btn-close-letter-mode').onclick = (e) => { e.stopPropagation(); exitLetterMode(); };
+            document.getElementById('btn-close-letter-mode').onclick = (e) => { 
+                e.stopPropagation(); 
+                exitLetterMode(); 
+            };
+        }
+
+        function focusOnPhoto(photoMesh) {
+            if (STATE.mode === 'FOCUS_PHOTO' && STATE.focusedPhotoMesh === photoMesh) {
+                // 如果已经聚焦在这个照片上，则退出聚焦模式
+                exitPhotoFocus();
+            } else {
+                // 进入照片聚焦模式
+                STATE.focusedPhotoMesh = photoMesh;
+                STATE.mode = 'FOCUS_PHOTO';
+                STATE.currentMode = 'FOCUS_PHOTO';
+                updateModeButtons();
+                
+                // 设置目标旋转，使相机正对照片
+                const photoPos = photoMesh.position.clone();
+                photoPos.applyMatrix4(mainGroup.matrixWorld);
+                const lookAtVec = new THREE.Vector3(0, 0, 1);
+                lookAtVec.applyQuaternion(camera.quaternion);
+                
+                // 计算目标旋转
+                const targetY = Math.atan2(photoPos.x, photoPos.z);
+                const targetX = Math.atan2(photoPos.y, Math.sqrt(photoPos.x * photoPos.x + photoPos.z * photoPos.z));
+                
+                STATE.targetRotation.x = targetX;
+                STATE.targetRotation.y = targetY;
+                
+                // 自动旋转到照片
+                STATE.isAnimating = true;
+                STATE.animationProgress = 0;
+            }
+        }
+
+        function exitPhotoFocus() {
+            if (STATE.mode === 'FOCUS_PHOTO') {
+                STATE.mode = 'SCATTER';
+                STATE.currentMode = 'SCATTER';
+                STATE.focusedPhotoMesh = null;
+                STATE.isAnimating = true;
+                STATE.animationProgress = 0;
+                STATE.targetRotation.x = 0.1;
+                STATE.targetRotation.y = STATE.rotation.y;
+                updateModeButtons();
+            }
         }
 
         function enterLetterMode() {
             if (STATE.mode === 'LETTER') return;
-            STATE.mode = 'LETTER';
-            const overlay = document.getElementById('letter-overlay'), paper = document.querySelector('.letter-paper'), display = document.getElementById('letter-content-display');
-            overlay.style.display = 'flex'; requestAnimationFrame(() => { overlay.style.opacity = 1; paper.style.transform = 'translateY(0)'; });
-            display.textContent = ''; display.classList.remove('cursor');
             
-            let i = 0;
-            const typeWriter = () => {
-                if (STATE.mode !== 'LETTER') return;
-                if (i < STATE.letterContent.length) { display.textContent += STATE.letterContent.charAt(i++); display.scrollTop = display.scrollHeight; STATE.letterTyper = setTimeout(typeWriter, 100); }
-                else display.classList.remove('cursor');
-            };
-            STATE.letterStartTimer = setTimeout(() => { if(STATE.mode==='LETTER') { display.classList.add('cursor'); typeWriter(); } }, 2000);
+            // 先切换到分散模式
+            STATE.mode = 'SCATTER';
+            STATE.currentMode = 'LETTER';
+            updateModeButtons();
+            
+            // 延迟显示书信界面
+            setTimeout(() => {
+                const overlay = document.getElementById('letter-overlay');
+                const paper = document.querySelector('.letter-paper');
+                const display = document.getElementById('letter-content-display');
+                
+                overlay.style.display = 'flex'; 
+                requestAnimationFrame(() => { 
+                    overlay.style.opacity = 1; 
+                    paper.style.transform = 'translateY(0)'; 
+                });
+                
+                display.textContent = ''; 
+                display.classList.remove('cursor');
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (STATE.mode !== 'LETTER') return;
+                    if (i < STATE.letterContent.length) { 
+                        display.textContent += STATE.letterContent.charAt(i++); 
+                        display.scrollTop = display.scrollHeight; 
+                        STATE.letterTyper = setTimeout(typeWriter, 100); 
+                    }
+                    else display.classList.remove('cursor');
+                };
+                
+                STATE.letterStartTimer = setTimeout(() => { 
+                    if(STATE.mode === 'LETTER') { 
+                        display.classList.add('cursor'); 
+                        typeWriter(); 
+                    } 
+                }, 2000);
+                
+                // 更新模式为书信模式
+                STATE.mode = 'LETTER';
+                updateModeButtons();
+                
+                // 设置适合阅读的视角
+                STATE.isAnimating = true;
+                STATE.animationProgress = 0;
+                STATE.targetRotation.x = Math.PI / 6; // 稍微俯视的角度
+                STATE.targetRotation.y = STATE.rotation.y;
+            }, 500);
         }
 
         function exitLetterMode() {
-            STATE.mode = 'TREE'; clearTimeout(STATE.letterTyper); clearTimeout(STATE.letterStartTimer);
-            const overlay = document.getElementById('letter-overlay'), paper = document.querySelector('.letter-paper');
-            overlay.style.opacity = 0; paper.style.transform = 'translateY(20px)';
-            setTimeout(() => { overlay.style.display = 'none'; }, 500);
-            STATE.spinVel.set(0,0);
+            STATE.mode = 'GATHER';
+            STATE.currentMode = 'GATHER';
+            clearTimeout(STATE.letterTyper); 
+            clearTimeout(STATE.letterStartTimer);
+            
+            const overlay = document.getElementById('letter-overlay');
+            const paper = document.querySelector('.letter-paper');
+            overlay.style.opacity = 0; 
+            paper.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => { 
+                overlay.style.display = 'none'; 
+            }, 500);
+            
+            updateModeButtons();
+            
+            // 动画回到聚拢模式
+            STATE.isAnimating = true;
+            STATE.animationProgress = 0;
+            STATE.targetRotation.x = 0.1;
+            STATE.targetRotation.y = STATE.rotation.y;
         }
 
         function handleMouseDown(event) {
@@ -827,8 +1111,33 @@
             STATE.lastMouseY = event.clientY;
         }
 
-        function handleMouseUp() {
+        function handleMouseUp(event) {
             STATE.isMouseDown = false;
+            
+            // 检查是否点击了照片（在分散模式下）
+            if (STATE.mode === 'SCATTER' || STATE.mode === 'FOCUS_PHOTO') {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                
+                // 只检查照片
+                const photos = particleSystem.filter(p => p.type === 'PHOTO');
+                const photoMeshes = photos.map(p => p.mesh.children[1]); // 照片mesh是第二个子元素
+                
+                const intersects = raycaster.intersectObjects(photoMeshes, true);
+                
+                if (intersects.length > 0) {
+                    const photoMesh = intersects[0].object.parent;
+                    focusOnPhoto(photoMesh);
+                    return;
+                }
+                
+                // 如果点击空白处且当前是照片聚焦模式，则退出
+                if (STATE.mode === 'FOCUS_PHOTO') {
+                    exitPhotoFocus();
+                }
+            }
         }
 
         function handleWheel(event) {
@@ -851,16 +1160,6 @@
                 switchTheme((STATE.currentThemeIndex + 1) % 3);
             }
             
-            // L键进入/退出书信模式
-            if (event.key.toLowerCase() === 'l') {
-                event.preventDefault();
-                if (STATE.mode === 'LETTER') {
-                    exitLetterMode();
-                } else if (STATE.letterContent && STATE.letterContent.trim() !== "") {
-                    enterLetterMode();
-                }
-            }
-            
             // F键切换全屏
             if (event.key.toLowerCase() === 'f') {
                 event.preventDefault();
@@ -871,21 +1170,13 @@
                 }
             }
             
-            // P键随机聚焦照片
-            if (event.key.toLowerCase() === 'p') {
+            // ESC键退出特殊模式
+            if (event.key.toLowerCase() === 'escape') {
                 event.preventDefault();
-                const photos = particleSystem.filter(p => p.type === 'PHOTO');
-                if (photos.length > 0) {
-                    STATE.currentPhotoIndex = (STATE.currentPhotoIndex + 1) % photos.length;
-                    STATE.focusTarget = photos[STATE.currentPhotoIndex].mesh;
-                    STATE.mode = 'FOCUS';
-                    
-                    // 3秒后自动退出聚焦模式
-                    setTimeout(() => {
-                        if (STATE.mode === 'FOCUS') {
-                            STATE.mode = 'TREE';
-                        }
-                    }, 3000);
+                if (STATE.mode === 'FOCUS_PHOTO') {
+                    exitPhotoFocus();
+                } else if (STATE.mode === 'LETTER') {
+                    exitLetterMode();
                 }
             }
             
@@ -894,8 +1185,12 @@
                 event.preventDefault();
                 STATE.rotation.x = 0.1;
                 STATE.rotation.y = 0;
+                STATE.targetRotation.x = 0.1;
+                STATE.targetRotation.y = 0;
                 camera.position.z = CONFIG.camera.z;
-                STATE.mode = 'TREE';
+                STATE.mode = 'GATHER';
+                STATE.currentMode = 'GATHER';
+                updateModeButtons();
             }
             
             // H键显示/隐藏帮助
@@ -956,6 +1251,58 @@
             }
         }
 
+        function switchMode(mode) {
+            if (mode === STATE.currentMode && mode !== 'LETTER') return;
+            
+            if (mode === 'LETTER') {
+                if (STATE.letterContent && STATE.letterContent.trim() !== "") {
+                    enterLetterMode();
+                } else {
+                    alert('请先上传书信内容！');
+                    return;
+                }
+            } else if (mode === 'SCATTER') {
+                STATE.mode = 'SCATTER';
+                STATE.currentMode = 'SCATTER';
+                STATE.isAnimating = true;
+                STATE.animationProgress = 0;
+                STATE.targetRotation.x = 0.1;
+                STATE.targetRotation.y = STATE.rotation.y;
+            } else if (mode === 'GATHER') {
+                STATE.mode = 'GATHER';
+                STATE.currentMode = 'GATHER';
+                STATE.isAnimating = true;
+                STATE.animationProgress = 0;
+                STATE.targetRotation.x = 0.1;
+                STATE.targetRotation.y = STATE.rotation.y;
+            }
+            
+            updateModeButtons();
+        }
+
+        function setupModeControls() {
+            document.getElementById('btn-mode-gather').onclick = (e) => {
+                e.stopPropagation();
+                switchMode('GATHER');
+            };
+            
+            document.getElementById('btn-mode-scatter').onclick = (e) => {
+                e.stopPropagation();
+                switchMode('SCATTER');
+            };
+            
+            document.getElementById('btn-mode-letter').onclick = (e) => {
+                e.stopPropagation();
+                switchMode('LETTER');
+            };
+        }
+
+        function updateModeButtons() {
+            document.getElementById('btn-mode-gather').classList.toggle('active', STATE.currentMode === 'GATHER');
+            document.getElementById('btn-mode-scatter').classList.toggle('active', STATE.currentMode === 'SCATTER' || STATE.currentMode === 'FOCUS_PHOTO');
+            document.getElementById('btn-mode-letter').classList.toggle('active', STATE.currentMode === 'LETTER');
+        }
+
         function animate() {
             requestAnimationFrame(animate);
             const dt = clock.getDelta(); STATE.time = clock.elapsedTime;
@@ -963,21 +1310,29 @@
             // 更新键盘控制
             updateKeyboardControls(dt);
             
-            // 自动旋转（如果没有鼠标或键盘输入）
-            if (!STATE.isMouseDown && Object.values(STATE.keys).every(k => !k) && STATE.mode === 'TREE') {
+            // 处理动画过渡
+            if (STATE.isAnimating) {
+                STATE.animationProgress += dt / STATE.animationDuration;
+                if (STATE.animationProgress >= 1) {
+                    STATE.animationProgress = 1;
+                    STATE.isAnimating = false;
+                }
+                
+                const t = easeInOutCubic(STATE.animationProgress);
+                STATE.rotation.x = THREE.MathUtils.lerp(STATE.rotation.x, STATE.targetRotation.x, t);
+                STATE.rotation.y = THREE.MathUtils.lerp(STATE.rotation.y, STATE.targetRotation.y, t);
+            }
+            
+            // 自动旋转（如果没有鼠标或键盘输入且不在特殊模式下）
+            if (!STATE.isMouseDown && 
+                Object.values(STATE.keys).every(k => !k) && 
+                !STATE.isAnimating &&
+                (STATE.mode === 'GATHER' || STATE.mode === 'SCATTER')) {
                 const baseSpeed = (STATE.currentThemeIndex === 1) ? 0.6 : 0.4;
                 STATE.rotation.y -= baseSpeed * dt; 
                 STATE.rotation.x = THREE.MathUtils.lerp(STATE.rotation.x, 0.15, dt * 2.0);
             }
             
-            if (STATE.mode === 'LETTER') {
-                STATE.rotation.x = THREE.MathUtils.lerp(STATE.rotation.x, Math.PI/4, dt * 1.5);
-            }
-            
-            if (STATE.mode === 'FOCUS') {
-                _invMatrix.copy(mainGroup.matrixWorld).invert();
-            }
-
             mainGroup.rotation.y = STATE.rotation.y; 
             mainGroup.rotation.x = STATE.rotation.x; 
             
@@ -1005,8 +1360,12 @@
                 STATE.starMesh.scale.setScalar(1.0 + Math.sin(STATE.time * 2) * 0.1);
             }
 
-            particleSystem.forEach(p => p.update(dt, STATE.time, STATE.mode, STATE.focusTarget, (STATE.mode === 'FOCUS' ? _invMatrix : null)));
+            particleSystem.forEach(p => p.update(dt, STATE.time, STATE.mode, STATE.focusedPhotoMesh, null));
             composer.render();
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         }
 
         function setupEvents() {
@@ -1074,17 +1433,20 @@
                 const btnImport = document.getElementById('btn-import');
                 const btnExport = document.getElementById('btn-export');
                 const btnSwitch = document.getElementById('btn-switch-theme');
+                const modeControls = document.getElementById('mode-controls');
 
                 if (isFs) {
                     colMedia.style.display = 'none'; 
                     btnImport.style.display = 'none'; 
                     btnExport.style.display = 'none'; 
                     btnSwitch.style.display = 'none';
+                    modeControls.style.display = 'none';
                 } else {
                     colMedia.style.display = 'flex';
                     btnImport.style.display = 'block';
                     btnExport.style.display = 'block';
                     btnSwitch.style.display = 'block';
+                    modeControls.style.display = 'flex';
                 }
             });
 
